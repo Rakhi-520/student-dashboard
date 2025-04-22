@@ -1,0 +1,56 @@
+.navbar {
+    background-color: #003366;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+  }
+  
+  .navbar-section {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-left {
+    justify-content: flex-start;
+  }
+  
+  .navbar-center {
+    justify-content: center;
+  }
+  
+  .navbar-right {
+    justify-content: flex-end;
+  }
+  
+  .navbar-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+  }
+  
+  .navbar-link {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    
+  }
+  
+  .add-student-button {
+    background-color: #ff6600;
+    border: none;
+    padding: 10px 20px;      
+    border-radius: 20px;
+    font-size: 18px;         
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  .add-student-button:hover {
+    transform: scale(1.05);
+  }

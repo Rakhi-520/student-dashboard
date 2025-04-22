@@ -1,0 +1,23 @@
+.sidebar {
+    width: 200px;
+    background-color: #ff6600;
+    color: white;
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-weight: bold;
+    font-size: 18px;
+    height: 100vh;
+  }
+  
+  .sidebar-link {
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+  }
+  
+  .sidebar-link.active {
+    background-color: #e65c00;
+  }
+  

@@ -1,0 +1,79 @@
+.student-list {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+  
+  .student-list-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #003366;
+  }
+  
+  .student-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .student-table th {
+    background-color: #003366;
+    color: white;
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .student-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+  }
+  
+  .edit-button {
+    background-color: #003366;
+    color: white;
+    padding: 6px 14px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .status-badge {
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    display: inline-block;
+  }
+  
+  .status-badge.active {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  .status-badge.inactive {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  
+  input, select {
+    padding: 6px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .save-btn, .cancel-btn, .delete-btn {
+    margin-right: 6px;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .save-btn { background-color: #28a745; color: white; }
+  .cancel-btn { background-color: #ffc107; color: black; }
+  .delete-btn { background-color: #dc3545; color: white; }
+  
