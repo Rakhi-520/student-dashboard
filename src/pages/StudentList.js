@@ -7,8 +7,19 @@ const demoStudents = [
   { id: 1002, name: "Bob", email: "bob@example.com", course: "Science", status: "Inactive", isDemo: true },
   { id: 1003, name: "Charlie", email: "charlie@example.com", course: "English", status: "Active", isDemo: true },
   { id: 1004, name: "Diana", email: "diana@example.com", course: "History", status: "Active", isDemo: true },
-  { id: 1005, name: "Evan", email: "evan@example.com", course: "Physics", status: "Inactive", isDemo: true }
+  { id: 1005, name: "Evan", email: "evan@example.com", course: "Physics", status: "Inactive", isDemo: true },
+  { id: 1006, name: "Fiona", email: "fiona@example.com", course: "Chemistry", status: "Active", isDemo: true },
+  { id: 1007, name: "George", email: "george@example.com", course: "Biology", status: "Inactive", isDemo: true },
+  { id: 1008, name: "Hannah", email: "hannah@example.com", course: "Math", status: "Active", isDemo: true },
+  { id: 1009, name: "Ian", email: "ian@example.com", course: "English", status: "Inactive", isDemo: true },
+  { id: 1010, name: "Jack", email: "jack@example.com", course: "History", status: "Active", isDemo: true },
+  { id: 1011, name: "Kara", email: "kara@example.com", course: "Physics", status: "Inactive", isDemo: true },
+  { id: 1012, name: "Liam", email: "liam@example.com", course: "Computer", status: "Active", isDemo: true },
+  { id: 1013, name: "Mona", email: "mona@example.com", course: "Chemistry", status: "Inactive", isDemo: true },
+  { id: 1014, name: "Nate", email: "nate@example.com", course: "Math", status: "Active", isDemo: true },
+  { id: 1015, name: "Olivia", email: "olivia@example.com", course: "Biology", status: "Inactive", isDemo: true }
 ];
+
 
 function StudentList() {
   const { students, setStudents } = useContext(StudentsContext);
