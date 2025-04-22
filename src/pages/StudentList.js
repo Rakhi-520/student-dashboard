@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { StudentsContext } from "./StudentsContext"; // Adjust if needed
+import React, { useContext, useState, useEffect } from "react";
+import { StudentsContext } from "./StudentsContext";
 import "./StudentList.css";
 
 const demoStudents = [
@@ -16,6 +16,10 @@ function StudentList() {
   const [deletedDemoIds, setDeletedDemoIds] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
+
+  useEffect(() => {
+    localStorage.setItem("studentData", JSON.stringify(students));
+  }, [students]);
 
   const handleEdit = (student) => {
     setEditingId(student.id);
@@ -34,51 +38,32 @@ function StudentList() {
     }));
   };
 
-  const handleSave = async (id) => {
-    try {
-      if (editData.isDemo) {
-        setEditedStudents((prev) =>
-          prev.map((student) => (student.id === id ? { ...editData } : student))
-        );
-      } else {
-        const updated = await fetch(`http://localhost:3500/students/${id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(editData)
-        });
-        if (updated.ok) {
-          const updatedStudent = await updated.json();
-          setStudents((prev) =>
-            prev.map((s) => (s.id === id ? updatedStudent : s))
-          );
-        }
-      }
-      setEditingId(null);
-      setEditData({});
-    } catch (error) {
-      console.error("Error saving student:", error);
+  const handleSave = (id) => {
+    if (editData.isDemo) {
+      setEditedStudents((prev) =>
+        prev.map((s) => (s.id === id ? { ...editData } : s))
+      );
+    } else {
+      const updatedList = students.map((s) =>
+        s.id === id ? { ...editData } : s
+      );
+      setStudents(updatedList);
+      localStorage.setItem("studentData", JSON.stringify(updatedList));
     }
+
+    setEditingId(null);
+    setEditData({});
   };
 
-  const handleDelete = async (id) => {
-    const student = [...students, ...editedStudents].find((s) => s.id === id);
-    const isDemo = student?.isDemo;
+  const handleDelete = (id) => {
+    const isDemo = demoStudents.find((s) => s.id === id);
 
-    try {
-      if (isDemo) {
-        setDeletedDemoIds((prev) => [...prev, id]);
-      } else {
-        const res = await fetch(`http://localhost:3500/students/${id}`, {
-          method: "DELETE"
-        });
-        if (res.ok) {
-          setStudents((prev) => prev.filter((s) => s.id !== id));
-        } else {
-          alert("Failed to delete student from API.");
-        }
-      }
-    } catch (error) {
-      console.error("Error deleting student:", error);
+    if (isDemo) {
+      setDeletedDemoIds((prev) => [...prev, id]);
+    } else {
+      const updatedList = students.filter((s) => s.id !== id);
+      setStudents(updatedList);
+      localStorage.setItem("studentData", JSON.stringify(updatedList));
     }
   };
 
@@ -106,11 +91,33 @@ function StudentList() {
             <tr key={student.id}>
               {editingId === student.id ? (
                 <>
-                  <td><input name="name" value={editData.name} onChange={handleChange} /></td>
-                  <td><input name="email" value={editData.email} onChange={handleChange} /></td>
-                  <td><input name="course" value={editData.course} onChange={handleChange} /></td>
                   <td>
-                    <select name="status" value={editData.status} onChange={handleChange}>
+                    <input
+                      name="name"
+                      value={editData.name}
+                      onChange={handleChange}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      name="email"
+                      value={editData.email}
+                      onChange={handleChange}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      name="course"
+                      value={editData.course}
+                      onChange={handleChange}
+                    />
+                  </td>
+                  <td>
+                    <select
+                      name="status"
+                      value={editData.status}
+                      onChange={handleChange}
+                    >
                       <option value="Active">Active</option>
                       <option value="Inactive">Inactive</option>
                     </select>

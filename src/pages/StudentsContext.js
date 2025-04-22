@@ -1,41 +1,37 @@
 import React, { createContext, useState, useEffect } from "react";
-import axios from "axios";
 
 // Create the context
 export const StudentsContext = createContext();
 
-// Create the provider component
+// LocalStorage key
+const STORAGE_KEY = "studentData";
+
+// Load students from localStorage
+const loadStudents = () => {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  return saved ? JSON.parse(saved) : [];
+};
+
+// Save students to localStorage
+const saveStudents = (data) => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+};
+
+// Provider component
 export const StudentsProvider = ({ children }) => {
   const [students, setStudents] = useState([]);
 
-  const API_URL = "http://localhost:3500/students";
-
-  // Fetch students from mock server
-  const fetchStudents = async () => {
-    try {
-      const response = await axios.get(API_URL);
-      setStudents(response.data);
-    } catch (error) {
-      console.error("❌ Failed to fetch students:", error.message);
-    }
-  };
-
-  // Run once when app loads
   useEffect(() => {
-    fetchStudents();
+    const localData = loadStudents();
+    setStudents(localData);
   }, []);
 
-  // Function to add a new student
-  const addStudent = async (newStudentData) => {
-    try {
-      const response = await axios.post(API_URL, newStudentData);
-      const savedStudent = response.data;
-      setStudents((prev) => [...prev, savedStudent]);
-      return true;
-    } catch (error) {
-      console.error("❌ Failed to add student:", error.message);
-      return false;
-    }
+  const addStudent = (newStudent) => {
+    const id = Date.now().toString(); // create unique ID
+    const updated = [...students, { ...newStudent, id }];
+    setStudents(updated);
+    saveStudents(updated);
+    return true;
   };
 
   return (

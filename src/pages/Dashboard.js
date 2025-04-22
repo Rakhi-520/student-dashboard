@@ -1,13 +1,31 @@
 import React, { useContext } from "react";
 import "./Dashboard.css";
 import { FaUserGraduate, FaUserCheck, FaUserTimes } from "react-icons/fa";
-import { StudentsContext } from "./StudentsContext"; // adjust path if needed
+import { StudentsContext } from "./StudentsContext";
+
+// Same demo students used in StudentList
+const demoStudents = [
+  { id: 1001, name: "Alice", status: "Active" },
+  { id: 1002, name: "Bob", status: "Inactive" },
+  { id: 1003, name: "Charlie", status: "Active" },
+  { id: 1004, name: "Diana", status: "Active" },
+  { id: 1005, name: "Evan", status: "Inactive" }
+];
 
 function Dashboard() {
   const { students } = useContext(StudentsContext);
 
-  const total = students.length;
-  const active = students.filter((s) => s.status === "Active").length;
+  // Combine API students with demo (if demo not deleted)
+  const deletedDemoIds = JSON.parse(localStorage.getItem("deletedDemoIds")) || [];
+
+  const visibleDemoStudents = demoStudents.filter(
+    (s) => !deletedDemoIds.includes(s.id)
+  );
+
+  const allStudents = [...students, ...visibleDemoStudents];
+
+  const total = allStudents.length;
+  const active = allStudents.filter((s) => s.status === "Active").length;
   const inactive = total - active;
 
   return (

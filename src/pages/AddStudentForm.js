@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { StudentsContext } from "./StudentsContext"; // Adjust the path if needed
+import { StudentsContext } from "./StudentsContext"; 
 import "./AddStudentForm.css";
 
 function AddStudentForm() {
@@ -21,14 +21,14 @@ function AddStudentForm() {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const success = await addStudent(formData);
+    const success = addStudent(formData); 
     if (success) {
-      alert("✅ Student added successfully!");
+      alert("Student added successfully!");
       navigate("/students");
     } else {
-      alert("❌ Failed to add student. Please try again.");
+      alert("Failed to add student. Please try again.");
     }
   };
 
