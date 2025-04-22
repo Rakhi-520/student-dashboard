@@ -20,7 +20,6 @@ const demoStudents = [
   { id: 1015, name: "Olivia", email: "olivia@example.com", course: "Biology", status: "Inactive", isDemo: true }
 ];
 
-
 function StudentList() {
   const { students, setStudents } = useContext(StudentsContext);
   const [editedStudents, setEditedStudents] = useState(demoStudents);
