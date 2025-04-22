@@ -11,9 +11,7 @@ function Navbar() {
         <NavLink to="/" className="navbar-title">Student Dashboard</NavLink>
       </div>
 
-      <div className="navbar-section navbar-center">
-        <NavLink to="/about" className="navbar-link">About</NavLink>
-      </div>
+    
 
       <div className="navbar-section navbar-right">
         <button className="add-student-button" onClick={() => navigate("/add-student")}>
