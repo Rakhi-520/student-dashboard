@@ -17,6 +17,9 @@ function StudentList() {
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const studentsPerPage = 10;
+
   useEffect(() => {
     localStorage.setItem("studentData", JSON.stringify(students));
   }, [students]);
@@ -73,12 +76,23 @@ function StudentList() {
 
   const finalList = [...students, ...visibleDemoStudents];
 
+  // Pagination logic
+  const indexOfLast = currentPage * studentsPerPage;
+  const indexOfFirst = indexOfLast - studentsPerPage;
+  const currentStudents = finalList.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(finalList.length / studentsPerPage);
+
+  const changePage = (number) => {
+    setCurrentPage(number);
+  };
+
   return (
     <div className="student-list">
       <h2 className="student-list-title">Student Records</h2>
       <table className="student-table">
         <thead>
           <tr>
+            <th>S.No.</th>
             <th>Name</th>
             <th>Email</th>
             <th>Course</th>
@@ -87,10 +101,11 @@ function StudentList() {
           </tr>
         </thead>
         <tbody>
-          {finalList.map((student) => (
+          {currentStudents.map((student, index) => (
             <tr key={student.id}>
               {editingId === student.id ? (
                 <>
+                  <td>{indexOfFirst + index + 1}</td>
                   <td>
                     <input
                       name="name"
@@ -130,6 +145,7 @@ function StudentList() {
                 </>
               ) : (
                 <>
+                  <td>{indexOfFirst + index + 1}</td>
                   <td>{student.name}</td>
                   <td>{student.email}</td>
                   <td>{student.course}</td>
@@ -147,6 +163,19 @@ function StudentList() {
           ))}
         </tbody>
       </table>
+
+      {/* Pagination Controls */}
+      <div className="pagination">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index}
+            className={`page-btn ${currentPage === index + 1 ? "active-page" : ""}`}
+            onClick={() => changePage(index + 1)}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
