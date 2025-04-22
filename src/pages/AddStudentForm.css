@@ -43,4 +43,15 @@
   .add-student-form button:hover {
     background-color: #e65c00;
   }
+  @media (max-width: 768px) {
+    .add-student-form {
+      padding: 20px;
+    }
+  
+    .add-student-form input,
+    .add-student-form select,
+    .add-student-form button {
+      width: 100%;
+    }
+  }
   
