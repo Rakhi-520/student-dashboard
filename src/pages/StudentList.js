@@ -1,44 +1,21 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useContext, useState } from "react";
+import { StudentsContext } from "./StudentsContext"; // Adjust if needed
 import "./StudentList.css";
 
-// Static demo data
-const allDemoStudents = [
-    { id: 1001, name: "Alice", email: "alice@example.com", course: "Math", status: "Active", isDemo: true },
-    { id: 1002, name: "Bob", email: "bob@example.com", course: "Science", status: "Inactive", isDemo: true },
-    { id: 1003, name: "Charlie", email: "charlie@example.com", course: "English", status: "Active", isDemo: true },
-    { id: 1004, name: "Diana", email: "diana@example.com", course: "History", status: "Active", isDemo: true },
-    { id: 1005, name: "Evan", email: "evan@example.com", course: "Physics", status: "Inactive", isDemo: true }
-  ];
+const demoStudents = [
+  { id: 1001, name: "Alice", email: "alice@example.com", course: "Math", status: "Active", isDemo: true },
+  { id: 1002, name: "Bob", email: "bob@example.com", course: "Science", status: "Inactive", isDemo: true },
+  { id: 1003, name: "Charlie", email: "charlie@example.com", course: "English", status: "Active", isDemo: true },
+  { id: 1004, name: "Diana", email: "diana@example.com", course: "History", status: "Active", isDemo: true },
+  { id: 1005, name: "Evan", email: "evan@example.com", course: "Physics", status: "Inactive", isDemo: true }
+];
 
 function StudentList() {
-  const API_URL = "http://localhost:3500/students";
-
-  const [apiStudents, setApiStudents] = useState([]);
-  const [editedDemoStudents, setEditedDemoStudents] = useState(allDemoStudents);
+  const { students, setStudents } = useContext(StudentsContext);
+  const [editedStudents, setEditedStudents] = useState(demoStudents);
   const [deletedDemoIds, setDeletedDemoIds] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
-
-  useEffect(() => {
-    fetchApiStudents();
-  }, []);
-
-  const fetchApiStudents = async () => {
-    try {
-      const response = await axios.get(API_URL);
-      const apiData = response.data;
-      setApiStudents(apiData);
-
-      // if API is empty, reset demo deletions
-      if (apiData.length === 0) {
-        setDeletedDemoIds([]);
-        setEditedDemoStudents(allDemoStudents);
-      }
-    } catch (error) {
-      console.error("Error fetching students:", error);
-    }
-  };
 
   const handleEdit = (student) => {
     setEditingId(student.id);
@@ -51,20 +28,30 @@ function StudentList() {
   };
 
   const handleChange = (e) => {
-    setEditData({ ...editData, [e.target.name]: e.target.value });
+    setEditData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
   };
 
   const handleSave = async (id) => {
     try {
-      if (id < 1000) {
-        // Save to API
-        await axios.put(`${API_URL}/${id}`, editData);
-        fetchApiStudents();
-      } else {
-        // Save demo edit
-        setEditedDemoStudents((prev) =>
+      if (editData.isDemo) {
+        setEditedStudents((prev) =>
           prev.map((student) => (student.id === id ? { ...editData } : student))
         );
+      } else {
+        const updated = await fetch(`http://localhost:3500/students/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(editData)
+        });
+        if (updated.ok) {
+          const updatedStudent = await updated.json();
+          setStudents((prev) =>
+            prev.map((s) => (s.id === id ? updatedStudent : s))
+          );
+        }
       }
       setEditingId(null);
       setEditData({});
@@ -74,30 +61,32 @@ function StudentList() {
   };
 
   const handleDelete = async (id) => {
-    // Check if it's a demo student
-    const student = editedDemoStudents.find(s => s.id === id);
+    const student = [...students, ...editedStudents].find((s) => s.id === id);
     const isDemo = student?.isDemo;
-  
+
     try {
       if (isDemo) {
-        setDeletedDemoIds(prev => [...prev, id]);
+        setDeletedDemoIds((prev) => [...prev, id]);
       } else {
-        // Real student - delete from API
-        await axios.delete(`${API_URL}/${id}`);
-        await fetchApiStudents(); // Refresh the list
+        const res = await fetch(`http://localhost:3500/students/${id}`, {
+          method: "DELETE"
+        });
+        if (res.ok) {
+          setStudents((prev) => prev.filter((s) => s.id !== id));
+        } else {
+          alert("Failed to delete student from API.");
+        }
       }
     } catch (error) {
       console.error("Error deleting student:", error);
     }
   };
-  
 
-  // Final filtered demo students (excluding deleted)
-  const visibleDemoStudents = editedDemoStudents.filter(
-    (student) => !deletedDemoIds.includes(student.id)
+  const visibleDemoStudents = editedStudents.filter(
+    (s) => !deletedDemoIds.includes(s.id)
   );
 
-  const finalStudents = [...apiStudents, ...visibleDemoStudents];
+  const finalList = [...students, ...visibleDemoStudents];
 
   return (
     <div className="student-list">
@@ -113,7 +102,7 @@ function StudentList() {
           </tr>
         </thead>
         <tbody>
-          {finalStudents.map((student) => (
+          {finalList.map((student) => (
             <tr key={student.id}>
               {editingId === student.id ? (
                 <>

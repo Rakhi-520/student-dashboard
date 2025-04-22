@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { StudentsContext } from "./StudentsContext"; // Adjust the path if needed
 import "./AddStudentForm.css";
 
 function AddStudentForm() {
   const navigate = useNavigate();
-  const API_URL = "http://localhost:3500/students";
+  const { addStudent } = useContext(StudentsContext);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -23,17 +23,12 @@ function AddStudentForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-     
-      await axios.post(API_URL, {
-        name: formData.name,
-        email: formData.email,
-        course: formData.course,
-        status: formData.status
-      });
-      navigate("/students"); // redirect after success
-    } catch (error) {
-      console.error("Error adding student:", error);
+    const success = await addStudent(formData);
+    if (success) {
+      alert("✅ Student added successfully!");
+      navigate("/students");
+    } else {
+      alert("❌ Failed to add student. Please try again.");
     }
   };
 
@@ -43,6 +38,7 @@ function AddStudentForm() {
       <form onSubmit={handleSubmit}>
         <label>Name</label>
         <input
+          type="text"
           name="name"
           value={formData.name}
           onChange={handleChange}
@@ -51,8 +47,8 @@ function AddStudentForm() {
 
         <label>Email</label>
         <input
-          name="email"
           type="email"
+          name="email"
           value={formData.email}
           onChange={handleChange}
           required
@@ -60,6 +56,7 @@ function AddStudentForm() {
 
         <label>Course</label>
         <input
+          type="text"
           name="course"
           value={formData.course}
           onChange={handleChange}
@@ -67,7 +64,11 @@ function AddStudentForm() {
         />
 
         <label>Status</label>
-        <select name="status" value={formData.status} onChange={handleChange}>
+        <select
+          name="status"
+          value={formData.status}
+          onChange={handleChange}
+        >
           <option value="Active">Active</option>
           <option value="Inactive">Inactive</option>
         </select>

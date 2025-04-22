@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Dashboard.css";
 import { FaUserGraduate, FaUserCheck, FaUserTimes } from "react-icons/fa";
+import { StudentsContext } from "./StudentsContext"; // adjust path if needed
 
 function Dashboard() {
+  const { students } = useContext(StudentsContext);
+
+  const total = students.length;
+  const active = students.filter((s) => s.status === "Active").length;
+  const inactive = total - active;
+
   return (
     <div className="dashboard">
       <h2 className="dashboard-title">👋 Welcome to the Student Dashboard</h2>
@@ -12,17 +19,17 @@ function Dashboard() {
         <div className="stat-card">
           <FaUserGraduate className="stat-icon" />
           <h3>Total Students</h3>
-          <p>50</p>
+          <p>{total}</p>
         </div>
         <div className="stat-card">
           <FaUserCheck className="stat-icon" />
           <h3>Active Students</h3>
-          <p>35</p>
+          <p>{active}</p>
         </div>
         <div className="stat-card">
           <FaUserTimes className="stat-icon" />
           <h3>Inactive Students</h3>
-          <p>15</p>
+          <p>{inactive}</p>
         </div>
       </div>
 
