@@ -1,5 +1,5 @@
 import React from 'react';
-import './StudentListModal.css'; 
+import './StudentListModal.css'; // Make sure the CSS file is linked correctly
 
 function StudentListModal({ isOpen, onClose, studentList, title }) {
   if (!isOpen) return null;
@@ -7,7 +7,10 @@ function StudentListModal({ isOpen, onClose, studentList, title }) {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <h2>{title}</h2>
+        <div className="modal-header">
+          <h2>{title}</h2>
+          <button className="close-btn" onClick={onClose}>×</button> {/* Close button */}
+        </div>
         <table className="student-table">
           <thead>
             <tr>
@@ -19,12 +22,14 @@ function StudentListModal({ isOpen, onClose, studentList, title }) {
             {studentList.map((student) => (
               <tr key={student.id}>
                 <td>{student.name}</td>
-                <td>{student.email || 'N/A'}</td> {/* Add default if email is not available */}
+                <td>{student.email || 'N/A'}</td>
               </tr>
             ))}
           </tbody>
         </table>
-        <button onClick={onClose}>Close</button>
+        <div className="modal-footer">
+          <button className="close-btn" onClick={onClose}>Close</button>
+        </div>
       </div>
     </div>
   );

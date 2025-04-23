@@ -1,63 +1,15 @@
-
-.dashboard {
-  background-color: #f4f4f4;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  margin-top: 20px;
-}
-
-.dashboard-title {
-  font-size: 26px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #003366;
-  text-align: center;
-}
-
-.dashboard-subtitle {
-  text-align: center;
-  font-size: 16px;
-  color: #555;
-}
-
-/* Stats Container */
-.stats-container {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 40px;
-}
-
-.stat-card {
-  background-color: #003366;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.stat-card:hover {
-  transform: scale(1.05);
-}
-
-.stat-icon {
-  font-size: 30px;
-}
-
-/* Modal Styles */
+/* Modal Overlay */
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5); /* Transparent background */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 999;
 }
 
 /* Modal Content */
@@ -66,23 +18,28 @@
   padding: 20px;
   border-radius: 10px;
   width: 80%;
-  max-width: 500px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  position: relative;
+  max-width: 600px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  position: relative; /* Make sure close button is positioned relative to the modal content */
 }
 
+/* Close Button */
 .close {
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 25px;
-  font-weight: bold;
   cursor: pointer;
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  color: #333;
 }
 
+/* Table Styles */
 .student-table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 20px;
 }
 
 .student-table th, .student-table td {
@@ -94,18 +51,59 @@
 .student-table th {
   background-color: #003366;
   color: white;
+  text-transform: uppercase;
 }
 
-.student-table tr:nth-child(even) {
-  background-color: #f9f9f9;
+/* Table Row Hover Effect */
+.student-table tr:hover {
+  background-color: #f1f1f1;
 }
 
-/* Motivation Box Styles */
-.motivation-box {
-  margin-top: 40px;
-  background-color: #f4f4f4;
+/* Stat Cards */
+.stat-card {
+  background-color: #003366;
+  color: white;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-10px);
+}
+
+.stat-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.stats-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.motivation-box {
+  background-color: #f1f1f1;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 30px;
+  text-align: center;
+  font-size: 14px;
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stats-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stat-card {
+    margin-bottom: 20px;
+    width: 100%;
+  }
 }
