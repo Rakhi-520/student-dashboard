@@ -1,79 +1,192 @@
 .student-list {
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  }
-  
-  .student-list-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #003366;
-  }
-  
-  .student-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .student-table th {
-    background-color: #003366;
-    color: white;
-    padding: 12px;
-    text-align: left;
-  }
-  
-  .student-table td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    font-size: 16px;
-  }
-  
-  .edit-button {
-    background-color: #003366;
-    color: white;
-    padding: 6px 14px;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .status-badge {
-    padding: 4px 10px;
-    border-radius: 15px;
-    font-size: 14px;
-    font-weight: bold;
-    display: inline-block;
-  }
-  
-  .status-badge.active {
-    background-color: #d4edda;
-    color: #155724;
-  }
-  
-  .status-badge.inactive {
-    background-color: #f8d7da;
-    color: #721c24;
-  }
-  
-  input, select {
-    padding: 6px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  .save-btn, .cancel-btn, .delete-btn {
-    margin-right: 6px;
-    padding: 6px 10px;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .save-btn { background-color: #28a745; color: white; }
-  .cancel-btn { background-color: #ffc107; color: black; }
-  .delete-btn { background-color: #dc3545; color: white; }
-  
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.student-list-title {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #003366;
+  text-align: center;
+}
+
+.student-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.student-table th {
+  background-color: #003366;
+  color: white;
+  padding: 14px;
+  text-align: left;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.student-table td {
+  padding: 14px;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+  color: #333;
+}
+
+.student-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.student-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Button Styles */
+.edit-button,
+.save-btn,
+.cancel-btn,
+.delete-btn {
+  padding: 6px 12px; 
+  font-size: 14px; 
+  font-weight: bold;
+  border-radius: 5px; 
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+}
+
+.save-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 6px 12px; 
+  font-size: 14px; 
+}
+
+.cancel-btn {
+  background-color: #ffc107;
+  color: black;
+  padding: 6px 12px; 
+  font-size: 14px; 
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  padding: 6px 12px; 
+  font-size: 14px; 
+}
+
+/* Hover Effects */
+.save-btn:hover {
+  background-color: #218838;
+}
+
+.cancel-btn:hover {
+  background-color: #e0a800;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+.edit-button {
+  background-color: #003366;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: #007bff;
+}
+
+/* Pagination Styles */
+.pagination {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.page-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #f1f1f1;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.page-btn.active-page {
+  background-color: #003366;
+  color: white;
+}
+
+.page-btn:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.page-btn:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+/* General Form Input Styles */
+input, select {
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+/* Status Badge Styles */
+.status-badge {
+  padding: 6px 15px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.status-badge.active {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-badge.inactive {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Icons Style */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+/* Pagination Button Styles */
+.page-btn {
+  font-size: 16px;
+  padding: 6px 16px;
+  cursor: pointer;
+}
+
+.page-btn:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.page-btn.active-page {
+  background-color: #003366;
+  color: white;
+}

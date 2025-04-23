@@ -1,7 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { StudentsContext } from "./StudentsContext";
+import { FaSave, FaTimes, FaTrashAlt } from "react-icons/fa"; // Importing icons
 import "./StudentList.css";
 
+// Demo students for testing
 const demoStudents = [
   { id: 1001, name: "Alice", email: "alice@example.com", course: "Math", status: "Active", isDemo: true },
   { id: 1002, name: "Bob", email: "bob@example.com", course: "Science", status: "Inactive", isDemo: true },
@@ -27,6 +29,7 @@ function StudentList() {
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
 
+  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const studentsPerPage = 10;
 
@@ -96,6 +99,14 @@ function StudentList() {
     setCurrentPage(number);
   };
 
+  const goToNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+
+  const goToPreviousPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
   return (
     <div className="student-list">
       <h2 className="student-list-title">Student Records</h2>
@@ -147,10 +158,10 @@ function StudentList() {
                       <option value="Inactive">Inactive</option>
                     </select>
                   </td>
-                  <td>
-                    <button className="save-btn" onClick={() => handleSave(student.id)}>Save</button>
-                    <button className="cancel-btn" onClick={handleCancel}>Cancel</button>
-                    <button className="delete-btn" onClick={() => handleDelete(student.id)}>Delete</button>
+                  <td className="action-buttons">
+                    <FaSave className="save-btn" onClick={() => handleSave(student.id)} />
+                    <FaTimes className="cancel-btn" onClick={handleCancel} />
+                    <FaTrashAlt className="delete-btn" onClick={() => handleDelete(student.id)} />
                   </td>
                 </>
               ) : (
@@ -160,7 +171,7 @@ function StudentList() {
                   <td>{student.email}</td>
                   <td>{student.course}</td>
                   <td>
-                    <span className={`status-badge ${student.status === "Active" ? "active" : "inactive"}`}>
+                    <span className={`status-badge ${student.status === "Active" ? "active" : "inactive"}`} >
                       {student.status}
                     </span>
                   </td>
@@ -174,8 +185,24 @@ function StudentList() {
         </tbody>
       </table>
 
-      {/* Pagination Controls */}
       <div className="pagination">
+        {/* Previous Button */}
+        <button
+          className="page-btn"
+          onClick={goToPreviousPage}
+          disabled={currentPage === 1}
+        >
+          &#8249; {/* Left Arrow */}
+        </button>
+
+        {/* Page Numbers */}
+        {currentPage > 3 && (
+          <button className="page-btn" onClick={() => changePage(1)}>
+            1
+          </button>
+        )}
+        {currentPage > 4 && <span className="ellipses">...</span>}
+
         {Array.from({ length: totalPages }, (_, index) => (
           <button
             key={index}
@@ -185,6 +212,22 @@ function StudentList() {
             {index + 1}
           </button>
         ))}
+
+        {currentPage < totalPages - 3 && <span className="ellipses">...</span>}
+        {currentPage < totalPages - 2 && (
+          <button className="page-btn" onClick={() => changePage(totalPages)}>
+            {totalPages}
+          </button>
+        )}
+
+        {/* Next Button */}
+        <button
+          className="page-btn"
+          onClick={goToNextPage}
+          disabled={currentPage === totalPages}
+        >
+          &#8250; {/* Right Arrow */}
+        </button>
       </div>
     </div>
   );
